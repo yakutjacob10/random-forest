@@ -1,0 +1,15 @@
+model_adam = create_model()
+optimizer_adam = optim.Adam(model_adam.parameters(), lr=0.01)
+criterion = nn.BCELoss()
+
+mb_loader = DataLoader(TensorDataset(X_train_t, y_train_t), batch_size=32, shuffle=True)
+
+for epoch in range(50):
+    for batch_x, batch_y in mb_loader:
+        optimizer_adam.zero_grad()
+        outputs = model_adam(batch_x)
+        loss = criterion(outputs, batch_y)
+        loss.backward()
+        optimizer_adam.step()
+
+evaluate(model_adam, "5. Adam")
