@@ -1,0 +1,16 @@
+model_mb = create_model()
+optimizer_mb = optim.SGD(model_mb.parameters(), lr=0.05)
+criterion = nn.BCELoss()
+
+# تقسيم البيانات إلى دفعات بحجم 32
+mb_loader = DataLoader(TensorDataset(X_train_t, y_train_t), batch_size=32, shuffle=True)
+
+for epoch in range(50):
+    for batch_x, batch_y in mb_loader:
+        optimizer_mb.zero_grad()
+        outputs = model_mb(batch_x)
+        loss = criterion(outputs, batch_y)
+        loss.backward()
+        optimizer_mb.step()
+
+evaluate(model_mb, "3. Mini-Batch GD")
