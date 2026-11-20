@@ -1,0 +1,16 @@
+model_sgd = create_model()
+optimizer_sgd = optim.SGD(model_sgd.parameters(), lr=0.01)
+criterion = nn.BCELoss()
+
+# تقسيم البيانات لعينة واحدة في كل مرة
+sgd_loader = DataLoader(TensorDataset(X_train_t, y_train_t), batch_size=1, shuffle=True)
+
+for epoch in range(20):
+    for batch_x, batch_y in sgd_loader:
+        optimizer_sgd.zero_grad()
+        outputs = model_sgd(batch_x)
+        loss = criterion(outputs, batch_y)
+        loss.backward()
+        optimizer_sgd.step()
+
+evaluate(model_sgd, "2. Stochastic GD (SGD)")
