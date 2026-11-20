@@ -1,0 +1,13 @@
+model_gd = create_model()
+optimizer_gd = optim.SGD(model_gd.parameters(), lr=0.1)
+criterion = nn.BCELoss()
+
+for epoch in range(100):
+    optimizer_gd.zero_grad()
+    # تمرير كامل البيانات دفعة واحدة
+    outputs = model_gd(X_train_t)
+    loss = criterion(outputs, y_train_t)
+    loss.backward()
+    optimizer_gd.step()
+
+evaluate(model_gd, "1. Batch Gradient Descent")
